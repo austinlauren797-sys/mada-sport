@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="sr-ME">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MADA sport</title>
+<meta name="description" content="MADA SPORT d.o.o. Podgorica. Izgradnja, obnova i opremanje sportskih terena.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a filmic dark opening, then a light portfolio. Court lines (a rule with a centre circle, corner marks on frames) are the one recurring motif. */
+  --bg:#f4f2ee;
+  --paper:#ffffff;
+  --ink:#16202a;
+  --muted:#5c6570;
+  --line:#dcd8d0;
+  --blue:#0a5cf0;
+  --blue-d:#0847bd;
+  --dark:#0f151c;
+  --sans:"Noto Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --g:clamp(20px,4vw,48px);
+  --max:1320px;
+  --r:6px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--g)}
+.lbl{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:0 0 16px}
+h1,h2,h3{margin:0;letter-spacing:-.022em;text-wrap:balance;line-height:1.05}
+h2{font-size:clamp(32px,4.2vw,58px);font-weight:800}
+h3{font-size:clamp(19px,1.6vw,23px);font-weight:700;line-height:1.2}
+p{margin:0}
+.lead{font-size:clamp(17px,1.4vw,20px);color:var(--muted);max-width:46ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:var(--r);background:var(--blue);color:#fff;font-weight:600;font-size:15.5px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:background .2s}
+.btn:hover{background:var(--blue-d)}
+.btn--light{background:#fff;color:var(--ink)}
+.btn--light:hover{background:var(--blue);color:#fff}
+.btn svg{width:16px;height:16px}
+.go{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.go svg{width:14px;height:14px;transition:transform .25s}
+a:hover .go svg{transform:translateX(3px)}
+
+/* court-line divider: rule with centre circle */
+.court{position:relative;height:1px;background:var(--line);margin:0 0 clamp(36px,4.5vw,56px)}
+.court::after{content:"";position:absolute;left:50%;top:50%;width:46px;height:46px;transform:translate(-50%,-50%);border:1px solid var(--line);border-radius:50%;background:var(--bg)}
+.court--dark{background:rgba(255,255,255,.16)}.court--dark::after{border-color:rgba(255,255,255,.16);background:var(--dark)}
+/* corner marks on key frames */
+.marks{position:relative}
+.marks::before,.marks::after{content:"";position:absolute;width:22px;height:22px;z-index:3;pointer-events:none;border:2px solid #fff}
+.marks::before{left:12px;top:12px;border-right:0;border-bottom:0}
+.marks::after{right:12px;bottom:12px;border-left:0;border-top:0}
+
+/* NAV (over hero, then solid) */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;color:#fff;transition:background .3s,color .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.nav .logo img{width:118px;height:auto}
+.nav .logo .d{display:none}
+.nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;font-size:15px;font-weight:500;padding:8px 0}
+.nav ul a:hover{opacity:.75}
+.nav .btn{min-height:44px;padding:0 18px;font-size:14.5px}
+.nav.solid,body.is-project .nav{background:rgba(244,242,238,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);border-color:var(--line)}
+.nav.solid .logo .w,body.is-project .nav .logo .w{display:none}
+.nav.solid .logo .d,body.is-project .nav .logo .d{display:block}
+.menu-btn{display:none;min-width:44px;min-height:44px;border:0;background:transparent;font:600 15px var(--sans);color:inherit;cursor:pointer;gap:8px;align-items:center}
+.menu-btn i{display:grid;gap:5px}.menu-btn i b{display:block;width:20px;height:2px;background:currentColor;transition:transform .25s,opacity .25s}
+.nav.open .menu-btn i b:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav.open .menu-btn i b:nth-child(2){opacity:0}
+.nav.open .menu-btn i b:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.drawer{display:none}
+
+/* HERO — full-bleed montage */
+.hero{position:relative;height:88vh;min-height:600px;max-height:1000px;background:#000;color:#fff;overflow:hidden}
+.reel,.reel video{position:absolute;inset:0;width:100%;height:100%}
+.reel video{object-fit:cover;pointer-events:none}
+.reel{background:#1b6fd6 url(img/hero-pull-first.jpg) center/cover no-repeat}
+.hero.ended .pause{visibility:hidden}
+.ticks .bar{width:140px}
+.ticks .bar b{transform:scaleX(var(--p,0))}
+.pause .rp{display:none}.hero.ended .pause .rp{display:block}.hero.ended .pause .pa,.hero.ended .pause .pl{display:none}
+.reel img{object-fit:cover}
+.reel picture{opacity:0;clip-path:inset(0 100% 0 0)}
+.reel picture.on{opacity:1;clip-path:inset(0 0 0 0);z-index:2;transition:clip-path .55s cubic-bezier(.7,0,.25,1)}
+.reel picture.was{opacity:1;z-index:1}
+.reel picture.on img{animation:drift 3.6s linear both}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-1.4%)}}
+.hero__shade{position:absolute;z-index:3;left:0;bottom:0;width:min(780px,90%);height:72%;background:radial-gradient(ellipse 85% 80% at 10% 100%,rgba(6,10,14,.72) 0%,rgba(6,10,14,.4) 45%,rgba(6,10,14,0) 75%);pointer-events:none}
+.hero__top{position:absolute;z-index:3;inset:0 0 auto 0;height:140px;background:linear-gradient(rgba(6,10,14,.45),rgba(6,10,14,0));pointer-events:none}
+.hero__in{position:absolute;z-index:4;left:0;right:0;bottom:clamp(36px,6vh,72px)}
+.hero__in .wrap{display:grid;gap:18px}
+.hero h1{font-size:clamp(50px,8.4vw,128px);font-weight:900;letter-spacing:-.035em;line-height:.95;max-width:9ch}
+.hero .sub{font-size:clamp(17px,1.5vw,21px);color:#e8ebee;max-width:40ch}
+.hero .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.hero__ctl{position:absolute;z-index:4;right:var(--g);bottom:clamp(36px,6vh,72px);display:grid;justify-items:end;gap:10px;text-align:right}
+.hero__ctl .now{font-size:16px;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hero__ctl .now span{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;opacity:.8}
+.ticks{display:flex;gap:6px;align-items:center}
+.ticks i{width:28px;height:2px;background:rgba(255,255,255,.35);position:relative;overflow:hidden}
+.ticks i b{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left}
+.ticks i.done b{transform:scaleX(1)}
+.ticks i.on b{animation:tick var(--dur,3s) linear forwards}
+.hero.paused .ticks i.on b{animation-play-state:paused}
+.hero.paused .reel picture.on img{animation-play-state:paused}
+@keyframes tick{to{transform:scaleX(1)}}
+.pause{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.6);background:rgba(0,0,0,.2);color:#fff;cursor:pointer;margin-left:8px}
+.pause svg{width:14px;height:14px}
+.pause .pl{display:none}.hero.paused .pause .pl{display:block}.hero.paused .pause .pa{display:none}
+
+/* SECTIONS */
+section{padding:clamp(72px,9vw,128px) 0}
+.sh{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(32px,4vw,52px)}
+.sh>div{grid-column:1/span 7}
+.sh>p{grid-column:8/span 5;color:var(--muted)}
+
+/* PROJECTS — 1 large + 3 */
+.bento{display:grid;grid-template-columns:7fr 5fr;grid-template-rows:repeat(3,auto);gap:16px}
+.pj{position:relative;display:block;text-decoration:none;border-radius:var(--r);overflow:hidden;background:#ddd;color:#fff;isolation:isolate}
+.pj img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pj:hover img{transform:scale(1.03)}
+.pj .cap{position:absolute;left:0;right:0;bottom:0;padding:56px 20px 18px;background:linear-gradient(0deg,rgba(6,10,14,.8),rgba(6,10,14,0));display:flex;justify-content:space-between;align-items:end;gap:12px}
+.pj .cap small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:6px}
+.pj .role{position:absolute;top:14px;left:14px;z-index:2;background:#fff;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:4px}
+.pj--big{grid-column:1;grid-row:1/span 3}
+.pj--big h3{font-size:clamp(26px,2.6vw,38px)}
+.pj--s{grid-column:2;aspect-ratio:16/9}
+
+/* SERVICES compact */
+.services{background:var(--paper);border-block:1px solid var(--line)}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.svc article{padding:24px 24px 6px 0;display:grid;gap:10px;align-content:start}
+.svc article+article{padding-left:24px;border-left:1px solid var(--line)}
+.svc .n{font-family:var(--mono);font-size:12px;color:var(--blue)}
+.svc p{color:var(--muted);font-size:16px}
+
+/* TRANSFORMATION full-width dark */
+.tx-sec{background:var(--dark);color:#f2f2ef}
+.tx-sec .lbl{color:#7aa8ff}
+.tx-sec .sh>p{color:#aab3bd}
+.cmp{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;width:100%;background:#000;--p:50%;touch-action:pan-y}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+.cmp .b{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.cmp .bar{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;pointer-events:none;z-index:2}
+.cmp .knob{position:absolute;top:50%;left:var(--p);width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;pointer-events:none;box-shadow:0 0 0 8px rgba(255,255,255,.18),0 4px 18px rgba(0,0,0,.3);z-index:2}
+.cmp .knob svg{width:22px;height:22px}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:4}
+.cmp input:focus-visible~.knob{outline:3px solid #7aa8ff;outline-offset:6px}
+.cmp .t{position:absolute;top:14px;padding:6px 10px;border-radius:4px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;pointer-events:none;z-index:3}
+.cmp .t1{left:14px;background:#fff;color:var(--ink)}.cmp .t2{right:14px;background:var(--blue);color:#fff}
+.cmp-ctl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-top:18px}
+.seg{display:inline-flex;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35);padding:3px}
+.seg button{min-height:42px;padding:0 18px;border:0;border-radius:4px;background:transparent;color:inherit;font:600 14.5px var(--sans);cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.light .seg{box-shadow:inset 0 0 0 1.5px var(--line)}
+.light .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.cmp-ctl p{color:#aab3bd;font-size:15px;max-width:60ch}
+
+/* BUILD — one crew photo + points */
+.build{padding-bottom:0}
+.build__img{position:relative;margin:0;height:min(78vh,760px);overflow:hidden}
+.build__img img{width:100%;height:100%;object-fit:cover}
+.build__img figcaption{position:absolute;left:var(--g);bottom:18px;background:#fff;padding:8px 12px;border-radius:4px;font-size:14px}
+.pts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:clamp(28px,3vw,40px)}
+.pts div{padding:0 24px 0 0;display:grid;gap:8px;align-content:start}
+.pts div+div{padding-left:24px;border-left:1px solid var(--line)}
+.pts b{font-size:18px}
+.pts span{color:var(--muted);font-size:16px}
+.pts i{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--blue)}
+
+/* USE — people in motion */
+.use .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(150px,15vw,210px);gap:12px}
+.use figure{margin:0;position:relative;border-radius:var(--r);overflow:hidden}
+.use img{width:100%;height:100%;object-fit:cover}
+.use figcaption{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.94);padding:6px 10px;border-radius:4px;font-size:13.5px;font-weight:500}
+.u1{grid-column:1/span 7;grid-row:span 3}
+.u2{grid-column:8/span 5;grid-row:span 2}
+.u3{grid-column:8/span 5;grid-row:span 2}
+.u4{grid-column:1/span 7;grid-row:span 1}
+.use .q{grid-column:1/span 7;grid-row:span 1;display:flex;align-items:center;padding:0 4px}
+.use .q p{font-size:clamp(20px,2vw,28px);font-weight:600;line-height:1.3;letter-spacing:-.01em;max-width:30ch}
+
+.play{display:grid;gap:12px}
+.prow{display:flex;gap:12px}
+.prow figure{flex:var(--ar) 1 0;margin:0;min-width:0}
+.prow img{width:100%;height:auto;aspect-ratio:var(--ar);object-fit:contain;border-radius:var(--r);background:#e8e5df}
+.use .prow figcaption{position:static;background:none;padding:0;border-radius:0;font-size:14px;font-weight:400;color:var(--muted);margin-top:8px}
+@media (max-width:640px){.prow{flex-direction:column}}
+/* CONTACT */
+.contact{background:var(--paper);border-top:1px solid var(--line)}
+.contact .wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.contact__l{grid-column:1/span 5;display:grid;gap:20px;align-content:start}
+.contact dl{margin:12px 0 0;display:grid;border-top:1px solid var(--line)}
+.contact dl div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.contact dt{color:var(--muted)}
+.contact dd{margin:0;font-weight:600}
+.todo{font-family:var(--mono);font-size:12.5px;font-weight:500;color:#9a5b00;background:#fff3dc;padding:2px 8px;border-radius:3px}
+form{grid-column:7/span 6;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,3vw,36px);display:grid;gap:18px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+label{display:grid;gap:6px;font-size:14.5px;font-weight:600}
+input,select,textarea{font:400 16px var(--sans);color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:4px;min-height:48px;padding:10px 12px;width:100%}
+textarea{min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#c4321f}
+.err{color:#c4321f;font-size:13.5px;font-weight:500;min-height:1em}
+.ok{display:none;padding:14px 16px;background:#eaf1ff;border-radius:4px;font-size:15px}
+.ok.show{display:block}
+
+footer{background:var(--dark);color:#aab3bd;padding:44px 0;font-size:14.5px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
+footer img{width:110px;height:auto}
+footer nav{display:flex;gap:22px;flex-wrap:wrap}
+footer a{text-decoration:none}footer a:hover{color:#fff}
+
+/* PROJECT PAGES */
+.pp{display:none;padding-top:76px}
+body.is-project .home{display:none}
+body.is-project .pp.active{display:block}
+.pp__head{padding:clamp(36px,5vw,64px) 0 clamp(28px,3vw,40px)}
+.back{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;text-decoration:none;color:var(--muted);margin-bottom:28px;min-height:44px}
+.back:hover{color:var(--blue)}
+.back svg{width:14px;height:14px}
+.pp__head .wrap>div{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end}
+.pp__head h1{grid-column:1/span 8;font-size:clamp(40px,5.4vw,76px)}
+.pp__head .lead{grid-column:9/span 4}
+.pp__hero img{width:100%;aspect-ratio:21/10;object-fit:cover;border-radius:var(--r)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);margin-top:28px}
+.facts div{padding:16px 16px 0 0;font-size:15px}
+.facts dt{color:var(--muted);font-size:13.5px}
+.facts dd{margin:2px 0 0;font-weight:600}
+.pp__body{padding:clamp(56px,7vw,96px) 0}
+.pp__row{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:clamp(36px,4vw,56px) 0;border-top:1px solid var(--line)}
+.pp__row>h2{grid-column:1/span 4;font-size:clamp(26px,2.6vw,36px)}
+.pp__row>.c{grid-column:6/span 7;display:grid;gap:16px}
+.pp__row>.c p{color:#38414b}
+.meta{font-size:14.5px;color:var(--muted)}
+.works{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
+.works li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.works li::before{content:"";flex:none;width:6px;height:6px;margin-top:10px;background:var(--blue);transform:rotate(45deg)}
+.gal{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.gal figure{margin:0}
+.gal img{width:100%;height:100%;object-fit:cover;border-radius:var(--r)}
+.gal .a{grid-column:span 7;aspect-ratio:4/3}.gal .b{grid-column:span 5;aspect-ratio:auto}
+.gal .c{grid-column:span 6;aspect-ratio:3/2}.gal .d{grid-column:span 6;aspect-ratio:3/2}
+.pp__cta{background:var(--paper);border-top:1px solid var(--line);padding:clamp(56px,7vw,96px) 0}
+.pp__cta .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px}
+.next{display:grid;gap:6px;text-decoration:none;text-align:right}
+.next span{color:var(--muted);font-size:14px}
+.next b{font-size:22px}
+.next:hover b{color:var(--blue)}
+
+@media (max-width:960px){
+  .nav ul,.nav .wrap>.btn{display:none}
+  .menu-btn{display:inline-flex}
+  .drawer{display:block;position:fixed;inset:76px 0 auto 0;background:var(--bg);color:var(--ink);border-bottom:1px solid var(--line);padding:8px var(--g) 24px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:.2s}
+  .nav.open .drawer{opacity:1;visibility:visible;transform:none}
+  .nav.open{background:var(--bg);color:var(--ink)}
+  .nav.open .logo .w{display:none}.nav.open .logo .d{display:block}
+  .drawer a{display:flex;align-items:center;min-height:52px;border-bottom:1px solid var(--line);text-decoration:none;font-size:19px;font-weight:600}
+  .drawer .btn{margin-top:18px;width:100%;color:#fff}
+  .sh>div,.sh>p{grid-column:1/-1}
+  .bento{grid-template-columns:1fr 1fr}
+  .pj--big{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3}
+  .pj--s{grid-column:auto;aspect-ratio:4/3}
+  .pj--s:last-child{grid-column:1/-1;aspect-ratio:16/9}
+  .svc{grid-template-columns:1fr 1fr;row-gap:20px}
+  .svc article:nth-child(3){padding-left:0;border-left:0}
+  .pts{grid-template-columns:1fr 1fr;row-gap:24px}
+  .pts div:nth-child(3){padding-left:0;border-left:0}
+  .use .grid{grid-auto-rows:150px}
+  .u1{grid-column:1/-1;grid-row:span 2}.u2,.u3{grid-column:span 6;grid-row:span 2}.u4{grid-column:1/-1;grid-row:span 2}.use .q{grid-column:1/-1;grid-row:auto;padding:12px 0}
+  .contact__l,form{grid-column:1/-1}
+  .pp__head h1,.pp__head .lead,.pp__row>h2,.pp__row>.c{grid-column:1/-1}
+  .facts{grid-template-columns:1fr 1fr;row-gap:10px}
+  .pp__hero img{aspect-ratio:4/3}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .nav .wrap{height:68px}.drawer{top:68px}.pp{padding-top:68px}
+  .hero{height:86svh;min-height:560px}
+  .hero__shade{width:100%;height:70%;background:linear-gradient(0deg,rgba(6,10,14,.82) 0%,rgba(6,10,14,.45) 50%,rgba(6,10,14,0) 100%)}
+  .hero__in{bottom:96px}
+  .hero__ctl{left:var(--g);right:var(--g);bottom:24px;grid-template-columns:1fr auto;justify-items:start;align-items:end;text-align:left}
+  .hero .row .btn{flex:1}
+  .bento{grid-template-columns:1fr}.pj--s,.pj--s:last-child{grid-column:1;aspect-ratio:4/3}
+  .svc{grid-template-columns:1fr}
+  .svc article,.svc article+article{padding:18px 0;border-left:0}
+  .svc article+article{border-top:1px solid var(--line)}
+  .build__img{height:auto}.build__img img{aspect-ratio:4/5}
+  .pts{grid-template-columns:1fr}
+  .pts div,.pts div+div{padding:16px 0;border-left:0;border-top:1px solid var(--line)}
+  .u2,.u3{grid-column:1/-1}
+  .f2,.works{grid-template-columns:1fr}
+  .gal .a,.gal .b,.gal .c,.gal .d{grid-column:1/-1;aspect-ratio:4/3}
+  .cmp{aspect-ratio:4/5}
+  .next{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#pocetna" aria-label="MADA sport, početna"><img class="w" src="img/logo-white.png" alt="MADA sport" width="118" height="37"><img class="d" src="img/logo-black.png" alt="" width="118" height="37"></a>
+    <ul>
+      <li><a href="#projekti">Projekti</a></li>
+      <li><a href="#usluge">Usluge</a></li>
+      <li><a href="#izvodjenje">Izvođenje</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a class="btn" href="#kontakt">Pošaljite upit</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="drawer">Meni <i aria-hidden="true"><b></b><b></b><b></b></i></button>
+    <div class="drawer" id="drawer">
+      <a href="#projekti">Projekti</a><a href="#usluge">Usluge</a><a href="#izvodjenje">Izvođenje</a><a href="#kontakt">Kontakt</a>
+      <a class="btn" href="#kontakt">Pošaljite upit</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="home" id="pocetna">
+
+  <!-- 1 · Početak: montaža preko cijele širine -->
+  <section class="hero" id="hero" style="padding:0" aria-label="Završeni tereni">
+    <div class="reel">
+      <video id="hv" src="img/hero-auto.mp4" poster="img/hero-pull-first.jpg" autoplay muted playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-label="Snimak dronom koji se podiže od centralnog kruga terena do tri renovirana terena, OŠ „Mileva Lajović Lalatović“, Nikšić"></video>
+    </div>
+    <div class="hero__top"></div>
+    <div class="hero__shade"></div>
+    <div class="hero__in">
+      <div class="wrap">
+        <h1>Ovdje počinje igra.</h1>
+        <p class="sub">Izgradnja, obnova i opremanje sportskih terena.</p>
+        <div class="row"><a class="btn btn--light" href="#projekti">Istražite projekte <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></a></div>
+      </div>
+    </div>
+    <div class="hero__ctl">
+      <p class="now"><span>Nikšić</span><b>OŠ „Mileva Lajović Lalatović“</b></p>
+      <div class="ticks"><i class="bar"><b id="hvp"></b></i>
+        <button class="pause" id="pause" type="button" aria-label="Zaustavi video"><svg class="pa" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/></svg><svg class="pl" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M4 2l8 5-8 5z"/></svg><svg class="rp" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 7a4.5 4.5 0 1 0 1.5-3.4M2 1.5v3h3"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Odabrani projekti -->
+  <section id="projekti">
+    <div class="wrap">
+      <div class="sh">
+        <div>
+          <p class="lbl">Odabrani projekti</p>
+          <h2>Različiti prostori. Vidljiva promjena.</h2>
+        </div>
+        <p>Svaki teren počinje drugačijim stanjem i drugačijim zahtjevom. Otvorite projekat da vidite zadatak, izvedene radove i završeni prostor.</p>
+      </div>
+      <div class="bento">
+        <a class="pj pj--big marks" href="#projekat-vuk-karadzic">
+          <img src="img/p-vk.jpg" alt="Plavi multisport teren OŠ „Vuk Karadžić“ iz vazduha, okružen školom i zgradama" loading="lazy">
+          <span class="role">Cjelina prostora</span>
+          <div class="cap"><div><small>Podgorica · rekonstrukcija i opremanje</small><h3>OŠ „Vuk Karadžić“</h3></div><span class="go">Projekat <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1 7h12M8 2l5 5-5 5"/></svg></span></div>
+        </a>
+        <a class="pj pj--s" href="#projekat-ratko-zaric">
+          <img src="img/p-rz.jpg" alt="Krugovi u plavoj, zelenoj i crvenoj boji preko cijelog terena" loading="lazy">
+          <span class="role">Karakter podloge</span>
+          <div class="cap"><div><small>Nikšić · rekonstrukcija</small><h3>OŠ „Ratko Žarić“</h3></div></div>
+        </a>
+        <a class="pj pj--s" href="#projekat-luka-simonovic">
+          <img src="img/p-ls.jpg" alt="Teqball sto i sto za stoni tenis na novoj višebojnoj podlozi" loading="lazy">
+          <span class="role">Oprema</span>
+          <div class="cap"><div><small>Nikšić · obnova i opremanje</small><h3>OŠ „Luka Simonović“</h3></div></div>
+        </a>
+        <a class="pj pj--s" href="#projekat-mileva-lajovic-lalatovic">
+          <img src="img/p-ml.jpg" alt="Plavi teren sa krugovima i poljima za igre, snimak odozgo" loading="lazy">
+          <span class="role">Raspored sadržaja</span>
+          <div class="cap"><div><small>Nikšić · nova osnova i podloga</small><h3>OŠ „Mileva Lajović Lalatović“</h3></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Usluge -->
+  <section class="services" id="usluge">
+    <div class="wrap">
+      <div class="sh">
+        <div>
+          <p class="lbl">Usluge</p>
+          <h2>Jedan izvođač za cijeli teren.</h2>
+        </div>
+        <p>Sagledavamo stanje prostora, planiranu namjenu i potrebe korisnika, pa na toj osnovi definišemo radove, podlogu i opremu.</p>
+      </div>
+      <div class="svc">
+        <article><span class="n">01</span><h3>Izgradnja i rekonstrukcija</h3><p>Sanacija postojeće ploče, nova asfaltna osnova, nivelacija i odvodnjavanje.</p></article>
+        <article><span class="n">02</span><h3>Sportske podloge</h3><p>Višeslojni akrilni sistemi, grafika projektovana za lokaciju i linije za više sportova.</p></article>
+        <article><span class="n">03</span><h3>Sportska oprema</h3><p>Koševi, golovi, odbojka, Teqball i stoni tenis, isporučeni i montirani.</p></article>
+        <article><span class="n">04</span><h3>Fitnes i rekreacija</h3><p>Sprave za vježbanje i street workout zone za učenike i naselje.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Jedna transformacija -->
+  <section class="tx-sec" aria-labelledby="tx-h">
+    <div class="wrap">
+      <div class="sh">
+        <div>
+          <p class="lbl">Transformacija</p>
+          <h2 id="tx-h">Od dotrajale podloge do novog terena.</h2>
+        </div>
+        <p>OŠ „Ratko Žarić“, Nikšić. Isti prostor prije i poslije radova, snimljen odozgo iz istog ugla.</p>
+      </div>
+      <div class="cmp" id="cmpHome">
+        <img src="img/tx-after.jpg" alt="Poslije radova: teren sa grafikom krugova u plavoj, zelenoj i crvenoj boji i manji teren pored njega" loading="lazy">
+        <img class="b" src="img/tx-before.jpg" alt="Prije radova: ispucala betonska ploča sa grafitima i manja betonska ploča" loading="lazy">
+        <span class="t t1">Prije</span><span class="t t2">Poslije</span>
+        <span class="bar"></span>
+        <input type="range" min="0" max="100" value="50" aria-label="Pomjerite za poređenje prije i poslije, OŠ „Ratko Žarić“">
+        <span class="knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="cmp-ctl">
+        <div class="seg" role="group" aria-label="Prikaz">
+          <button type="button" data-v="100" aria-pressed="false">Prije</button>
+          <button type="button" data-v="50" aria-pressed="true">Oba</button>
+          <button type="button" data-v="0" aria-pressed="false">Poslije</button>
+        </div>
+        <p>Sanacija ispucale ploče, akrilna podloga na glavnom i manjem terenu, nove linije i oprema.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Izvođenje -->
+  <section class="build" id="izvodjenje">
+    <div class="wrap">
+      <div class="sh">
+        <div>
+          <p class="lbl">Izvođenje</p>
+          <h2>Radove vodimo od prvog obilaska do primopredaje.</h2>
+        </div>
+        <p>Sopstvena ekipa i mehanizacija na terenu. Naručilac ima jednu adresu za dogovor, rokove i primopredaju.</p>
+      </div>
+    </div>
+    <figure class="build__img">
+      <picture><source media="(max-width:600px)" srcset="img/crew-m.jpg"><img src="img/crew.jpg" alt="Radnik i finišer ugrađuju novu asfaltnu osnovu na školskom terenu" loading="lazy"></picture>
+      <figcaption>Ugradnja nove osnove, OŠ „Mileva Lajović Lalatović“</figcaption>
+    </figure>
+    <div class="wrap">
+      <div class="pts">
+        <div><i>01</i><b>Procjena</b><span>Snimanje lokacije, mjerenja i procjena postojeće podloge.</span></div>
+        <div><i>02</i><b>Rješenje</b><span>Raspored sportova, grafika podloge i ponuda po stavkama.</span></div>
+        <div><i>03</i><b>Izvođenje</b><span>Osnova, višeslojni akrilni sistem i linije.</span></div>
+        <div><i>04</i><b>Predaja</b><span>Montaža opreme, provjera i uputstva za održavanje.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Igra i korišćenje -->
+  <section class="use" aria-labelledby="use-h">
+    <div class="wrap">
+      <div class="court"></div>
+      <div class="sh">
+        <div>
+          <p class="lbl">Igra i korišćenje</p>
+          <h2 id="use-h">Teren dobija smisao kada se koristi.</h2>
+        </div>
+        <p>Košarka, odbojka, stoni tenis i vježbanje na otvorenom. Isti prostor služi nastavi, sekcijama i djeci iz naselja.</p>
+      </div>
+      <div class="play">
+        <div class="prow">
+          <figure style="--ar:1.5"><img src="img/g-basket.jpg" alt="Dječaci igraju košarku na plavom terenu, jedan šutira na koš" width="1800" height="1200"><figcaption>Košarka · OŠ „Vuk Karadžić“, Podgorica</figcaption></figure>
+          <figure style="--ar:.6667"><img src="img/g-drive.jpg" alt="Dječak vodi loptu prema košu, drugi ga prati" width="1000" height="1500"><figcaption>Prodor na koš · OŠ „Vuk Karadžić“</figcaption></figure>
+        </div>
+        <div class="prow">
+          <figure style="--ar:1.5"><img src="img/g-volley.jpg" alt="Učenice igraju odbojku na terenu sa višebojnom geometrijskom podlogom" width="1800" height="1200"><figcaption>Odbojka · OŠ „Luka Simonović“, Nikšić</figcaption></figure>
+          <figure style="--ar:1.5"><img src="img/g-volley2.jpg" alt="Djevojčice vježbaju odbojku ispod mreže na plavom terenu" width="1800" height="1200"><figcaption>Trening odbojke · OŠ „Vuk Karadžić“</figcaption></figure>
+        </div>
+        <div class="prow">
+          <figure style="--ar:1.5"><img src="img/u-volley.jpg" alt="Učenice igraju odbojku na terenu sa geometrijskom podlogom" width="1400" height="933"><figcaption>Odbojka · OŠ „Luka Simonović“, Nikšić</figcaption></figure>
+          <figure style="--ar:.6667"><img src="img/u-basket.jpg" alt="Djeca igraju košarku ispod koša" width="1000" height="1500"><figcaption>Košarka · OŠ „Luka Simonović“</figcaption></figure>
+        </div>
+        <div class="prow">
+          <figure style="--ar:1.5"><img src="img/u-tt.jpg" alt="Igra stonog tenisa na terenu sa višebojnom podlogom" width="1400" height="933"><figcaption>Stoni tenis · OŠ „Ratko Žarić“, Nikšić</figcaption></figure>
+          <figure style="--ar:1.5"><img src="img/u-fit.jpg" alt="Sprave za street workout na podlozi u plavoj, crvenoj i zelenoj boji" width="1400" height="933"><figcaption>Zona za vježbanje · OŠ „Ratko Žarić“</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Kontakt -->
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <div class="contact__l">
+        <p class="lbl">Kontakt</p>
+        <h2>Razgovarajmo o vašem terenu.</h2>
+        <p class="lead">Pošaljite lokaciju, nekoliko fotografija i kratak opis planiranih radova.</p>
+        <dl>
+          <div><dt>Telefon</dt><dd><span class="todo">unijeti broj</span></dd></div>
+          <div><dt>E-mail</dt><dd><span class="todo">unijeti e-mail</span></dd></div>
+          <div><dt>Sjedište</dt><dd>Podgorica, Crna Gora</dd></div>
+          <div><dt>Firma</dt><dd>MADA SPORT d.o.o. · PIB 04394682</dd></div>
+        </dl>
+      </div>
+      <form id="form" novalidate>
+        <div class="f2">
+          <label for="f-name">Ime i prezime<input id="f-name" name="ime" autocomplete="name" required><span class="err" id="e-name"></span></label>
+          <label for="f-org">Ustanova ili firma<input id="f-org" name="ustanova" autocomplete="organization"></label>
+        </div>
+        <div class="f2">
+          <label for="f-mail">E-mail<input id="f-mail" name="email" type="email" autocomplete="email" required><span class="err" id="e-mail"></span></label>
+          <label for="f-tel">Telefon<input id="f-tel" name="telefon" type="tel" autocomplete="tel"></label>
+        </div>
+        <div class="f2">
+          <label for="f-loc">Lokacija<input id="f-loc" name="lokacija" placeholder="Grad, adresa ili škola"></label>
+          <label for="f-type">Vrsta radova<select id="f-type" name="vrsta"><option>Obnova postojećeg terena</option><option>Novi teren</option><option>Samo podloga</option><option>Oprema</option><option>Nisam siguran</option></select></label>
+        </div>
+        <label for="f-msg">Opis<textarea id="f-msg" name="opis" placeholder="Dimenzije, trenutno stanje, sportovi koje planirate" required></textarea><span class="err" id="e-msg"></span></label>
+        <button class="btn" type="submit">Pošaljite upit</button>
+        <p class="ok" id="ok" role="status"></p>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PROJECT PAGES ============ -->
+<article class="pp" id="projekat-luka-simonovic" aria-labelledby="ls-h">
+  <header class="pp__head">
+    <div class="wrap">
+      <a class="back" href="#projekti"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 7H1M6 2 1 7l5 5"/></svg>Svi projekti</a>
+      <div>
+        <h1 id="ls-h">OŠ „Luka Simonović“</h1>
+        <p class="lead">Tri dotrajala betonska terena u školskom dvorištu pretvorena u jedinstven prostor za šest sportova.</p>
+      </div>
+    </div>
+  </header>
+  <div class="wrap">
+    <figure class="pp__hero" style="margin:0"><img src="img/ls-hero.jpg" alt="Glavni teren OŠ „Luka Simonović“ odozgo, sa geometrijskom podlogom"></figure>
+    <dl class="facts">
+      <div><dt>Lokacija</dt><dd>Nikšić</dd></div>
+      <div><dt>Godina</dt><dd>2026</dd></div>
+      <div><dt>Vrsta radova</dt><dd>Rekonstrukcija i opremanje</dd></div>
+      <div><dt>Površina</dt><dd><span class="todo">potvrditi</span></dd></div>
+    </dl>
+  </div>
+  <div class="pp__body">
+    <div class="wrap">
+      <div class="pp__row">
+        <h2>Zadatak</h2>
+        <div class="c">
+          <p>Školsko dvorište imalo je tri betonska terena sa ispucalom podlogom, izblijedjelim linijama i dotrajalom opremom. Prostor je trebalo urediti tako da služi nastavi fizičkog vaspitanja, sekcijama i svakodnevnoj rekreaciji, i da ostane otvoren za naselje.</p>
+        </div>
+      </div>
+      <div class="pp__row">
+        <h2>Uloga MADA SPORT-a</h2>
+        <div class="c">
+          <p>Izvođenje radova na terenu: priprema postojećih ploča, nanošenje akrilnog sistema po projektu grafike, linije i montaža sportske opreme.</p>
+          <p class="meta"><span class="todo">potvrditi tačnu ulogu i partnere</span></p>
+        </div>
+      </div>
+      <div class="pp__row">
+        <h2>Izvedeni radovi</h2>
+        <div class="c">
+          <ul class="works">
+            <li>Priprema i sanacija betonskih ploča</li>
+            <li>Višeslojna akrilna podloga</li>
+            <li>Geometrijska grafika u šest boja</li>
+            <li>Linije za mali fudbal, rukomet, košarku i odbojku</li>
+            <li>Koševi, golovi i set za odbojku</li>
+            <li>Teqball sto i sto za stoni tenis</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pp__row">
+        <h2>Promjena prostora</h2>
+        <div class="c light">
+          <div class="cmp" id="cmpLs">
+            <img src="img/ls-tx-after.jpg" alt="Poslije radova: tri terena sa višebojnom geometrijskom podlogom, isti kadar" loading="lazy">
+            <img class="b" src="img/ls-tx-before.jpg" alt="Prije radova: sivi betonski tereni u školskom dvorištu, isti kadar" loading="lazy">
+            <span class="t t1">Prije</span><span class="t t2">Poslije</span>
+            <span class="bar"></span>
+            <input type="range" min="0" max="100" value="50" aria-label="Pomjerite za poređenje prije i poslije, OŠ „Luka Simonović“">
+            <span class="knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="cmp-ctl">
+            <div class="seg" role="group" aria-label="Prikaz">
+              <button type="button" data-v="100" aria-pressed="false">Prije</button>
+              <button type="button" data-v="50" aria-pressed="true">Oba</button>
+              <button type="button" data-v="0" aria-pressed="false">Poslije</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pp__row">
+        <h2>Završni detalji i korišćenje</h2>
+        <div class="c">
+          <div class="gal">
+            <figure class="a"><img src="img/ls-tables.jpg" alt="Teqball sto i sto za stoni tenis na novoj podlozi, sa koševima u pozadini" loading="lazy"></figure>
+            <figure class="b"><img src="img/play-basket.jpg" alt="Učenici igraju košarku na novom terenu" loading="lazy"></figure>
+            <figure class="c"><img src="img/play-football.jpg" alt="Učenici igraju mali fudbal" loading="lazy"></figure>
+            <figure class="d"><img src="img/ls-aerial.jpg" alt="Teren iz vazduha sa školom i zgradama" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pp__cta">
+    <div class="wrap">
+      <div style="display:grid;gap:18px">
+        <h2>Planirate sličan projekat?</h2>
+        <a class="btn" href="#kontakt" style="justify-self:start">Pošaljite upit</a>
+      </div>
+      <a class="next" href="#projekat-ratko-zaric"><span>Sljedeći projekat</span><b>OŠ „Ratko Žarić“ →</b></a>
+    </div>
+  </div>
+</article>
+
+<article class="pp" id="projekat-ratko-zaric" aria-labelledby="rz-h">
+  <header class="pp__head"><div class="wrap">
+    <a class="back" href="#projekti"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 7H1M6 2 1 7l5 5"/></svg>Svi projekti</a>
+    <div><h1 id="rz-h">OŠ „Ratko Žarić“</h1><p class="lead">Ispucala betonska ploča sanirana je i dobila akrilnu podlogu sa grafikom koja povezuje glavni i manji teren.</p></div>
+  </div></header>
+  <div class="wrap">
+    <figure class="pp__hero" style="margin:0"><img src="img/rz-city.jpg" alt="Tereni OŠ „Ratko Žarić“ iz vazduha, u naselju"></figure>
+    <dl class="facts"><div><dt>Lokacija</dt><dd>Nikšić</dd></div><div><dt>Godina</dt><dd>2026</dd></div><div><dt>Vrsta radova</dt><dd>Rekonstrukcija sportskog prostora</dd></div><div><dt>Površina</dt><dd><span class="todo">potvrditi</span></dd></div></dl>
+  </div>
+  <div class="pp__body"><div class="wrap">
+    <div class="pp__row"><h2>Izvedeni radovi</h2><div class="c"><ul class="works"><li>Sanacija ispucale betonske ploče</li><li>Akrilna podloga na dva terena</li><li>Grafika krugova u tri boje</li><li>Golovi i set za odbojku</li><li>Teqball sto i stoni tenis</li><li>Zona za vježbanje na otvorenom</li></ul></div></div>
+    <div class="pp__row"><h2>Promjena prostora</h2><div class="c"><div class="gal"><figure class="c"><img src="img/tx-before.jpg" alt="Prije radova, snimak odozgo" loading="lazy"></figure><figure class="d"><img src="img/tx-after.jpg" alt="Poslije radova, isti kadar" loading="lazy"></figure></div><p class="meta">Lijevo prije, desno poslije radova. Isti kadar, snimljen odozgo.</p></div></div>
+  </div></div>
+  <div class="pp__cta"><div class="wrap"><div style="display:grid;gap:18px"><h2>Planirate sličan projekat?</h2><a class="btn" href="#kontakt" style="justify-self:start">Pošaljite upit</a></div><a class="next" href="#projekat-mileva-lajovic-lalatovic"><span>Sljedeći projekat</span><b>OŠ „Mileva Lajović Lalatović“ →</b></a></div></div>
+</article>
+
+<article class="pp" id="projekat-mileva-lajovic-lalatovic" aria-labelledby="ml-h">
+  <header class="pp__head"><div class="wrap">
+    <a class="back" href="#projekti"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 7H1M6 2 1 7l5 5"/></svg>Svi projekti</a>
+    <div><h1 id="ml-h">OŠ „Mileva Lajović Lalatović“</h1><p class="lead">Kompleks od tri terena urađen od osnove: nova asfaltna podloga, zatim akrilni sistem sa grafikom koncentričnih krugova.</p></div>
+  </div></header>
+  <div class="wrap">
+    <figure class="pp__hero" style="margin:0"><img src="img/ml-after.jpg" alt="Tri plava terena iz vazduha"></figure>
+    <dl class="facts"><div><dt>Lokacija</dt><dd>Nikšić</dd></div><div><dt>Godina</dt><dd>2026</dd></div><div><dt>Vrsta radova</dt><dd>Izgradnja osnove i podloge</dd></div><div><dt>Površina</dt><dd><span class="todo">potvrditi</span></dd></div></dl>
+  </div>
+  <div class="pp__body"><div class="wrap">
+    <div class="pp__row"><h2>Izvedeni radovi</h2><div class="c"><ul class="works"><li>Uklanjanje stare podloge</li><li>Nova asfaltna osnova</li><li>Valjanje i nivelacija</li><li>Akrilni sistem na tri terena</li><li>Linije za više sportova</li><li>Montaža opreme</li></ul></div></div>
+    <div class="pp__row"><h2>Tok radova</h2><div class="c"><div class="gal"><figure class="c"><img src="img/w-prep.jpg" alt="Pripremni radovi" loading="lazy"></figure><figure class="d"><img src="img/w-asphalt.jpg" alt="Ugradnja asfalta" loading="lazy"></figure><figure class="c"><img src="img/w-roll.jpg" alt="Valjanje osnove" loading="lazy"></figure><figure class="d"><img src="img/ml-top.jpg" alt="Završen teren odozgo" loading="lazy"></figure></div></div></div>
+  </div></div>
+  <div class="pp__cta"><div class="wrap"><div style="display:grid;gap:18px"><h2>Planirate sličan projekat?</h2><a class="btn" href="#kontakt" style="justify-self:start">Pošaljite upit</a></div><a class="next" href="#projekat-vuk-karadzic"><span>Sljedeći projekat</span><b>OŠ „Vuk Karadžić“ →</b></a></div></div>
+</article>
+
+<article class="pp" id="projekat-vuk-karadzic" aria-labelledby="vk-h">
+  <header class="pp__head"><div class="wrap">
+    <a class="back" href="#projekti"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 7H1M6 2 1 7l5 5"/></svg>Svi projekti</a>
+    <div><h1 id="vk-h">OŠ „Vuk Karadžić“</h1><p class="lead">Dotrajala betonska ploča zamijenjena je jedinstvenom multisport površinom u tonovima plave.</p></div>
+  </div></header>
+  <div class="wrap">
+    <figure class="pp__hero" style="margin:0"><img src="img/vk-after.jpg" alt="Plavi multisport teren iz vazduha"></figure>
+    <dl class="facts"><div><dt>Lokacija</dt><dd>Podgorica</dd></div><div><dt>Godina</dt><dd>2026</dd></div><div><dt>Vrsta radova</dt><dd>Rekonstrukcija i opremanje</dd></div><div><dt>Površina</dt><dd><span class="todo">potvrditi</span></dd></div></dl>
+  </div>
+  <div class="pp__body"><div class="wrap">
+    <div class="pp__row"><h2>Teren u upotrebi</h2><div class="c"><div class="gal"><figure class="a"><img src="img/h3.jpg" alt="Djeca igraju košarku na novom terenu" loading="lazy"></figure><figure class="b"><img src="img/p-vk.jpg" alt="Teren iz vazduha" loading="lazy"></figure></div></div></div>
+    <div class="pp__row"><h2>Izvedeni radovi</h2><div class="c"><ul class="works"><li>Priprema betonske ploče</li><li>Akrilna podloga sa grafikom</li><li>Linije za mali fudbal, košarku i odbojku</li><li>Koševi i golovi</li><li>Set za odbojku</li><li>Teqball sto i stoni tenis</li></ul></div></div>
+  </div></div>
+  <div class="pp__cta"><div class="wrap"><div style="display:grid;gap:18px"><h2>Planirate sličan projekat?</h2><a class="btn" href="#kontakt" style="justify-self:start">Pošaljite upit</a></div><a class="next" href="#projekat-luka-simonovic"><span>Sljedeći projekat</span><b>OŠ „Luka Simonović“ →</b></a></div></div>
+</article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo-white.png" alt="MADA sport" width="110" height="34">
+    <nav aria-label="Podnožje"><a href="#projekti">Projekti</a><a href="#usluge">Usluge</a><a href="#izvodjenje">Izvođenje</a><a href="#kontakt">Kontakt</a></nav>
+    <span>MADA SPORT d.o.o. · Podgorica · © 2026</span>
+  </div>
+</footer>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav=document.getElementById('nav'),mb=document.getElementById('menuBtn');
+  function closeMenu(){nav.classList.remove('open');mb.setAttribute('aria-expanded','false')}
+  mb.addEventListener('click',function(){var o=nav.classList.toggle('open');mb.setAttribute('aria-expanded',o?'true':'false')});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});
+  document.querySelectorAll('#drawer a').forEach(function(a){a.addEventListener('click',closeMenu)});
+  function onScroll(){nav.classList.toggle('solid',scrollY>innerHeight*.6)}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* hero video: starts by itself, plays once, holds the wide frame. No click needed. */
+  var hero=document.getElementById('hero'),v=document.getElementById('hv'),bar=document.getElementById('hvp'),pb=document.getElementById('pause');
+  pb.style.display='none';
+  v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');v.playsInline=true;
+  function kick(){if(v.ended||!v.paused)return;var p=v.play();if(p&&p.catch)p.catch(function(){})}
+  if(reduce){v.addEventListener('loadedmetadata',function(){v.currentTime=Math.max(0,v.duration-0.05)})}
+  else{
+    ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(function(ev){v.addEventListener(ev,kick)});
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)kick()});
+    ['pointerdown','touchstart','keydown','scroll','wheel','mousemove'].forEach(function(ev){addEventListener(ev,kick,{passive:true,once:true})});
+    var tries=0,iv=setInterval(function(){kick();if(++tries>40||v.ended||!v.paused)clearInterval(iv)},250);
+    kick();
+  }
+  v.addEventListener('timeupdate',function(){bar.style.transform='scaleX('+(v.duration?v.currentTime/v.duration:0)+')'});
+  v.addEventListener('ended',function(){hero.classList.add('ended');bar.style.transform='scaleX(1)'});
+  function stop(){}
+  /* routing for project pages */
+  function route(){
+    var h=location.hash.slice(1),isP=h.indexOf('projekat-')===0&&document.getElementById(h);
+    document.body.classList.toggle('is-project',!!isP);
+    document.querySelectorAll('.pp').forEach(function(p){p.classList.toggle('active',isP&&p.id===h)});
+    if(isP){scrollTo(0,0);document.title=document.getElementById(h).querySelector('h1').textContent+' · MADA sport';stop()}
+    else{document.title='MADA sport';if(h){var t=document.getElementById(h);if(t)requestAnimationFrame(function(){t.scrollIntoView()})}}
+  }
+  addEventListener('hashchange',route);route();
+
+  /* compare sliders */
+  document.querySelectorAll('.cmp').forEach(function(c){
+    var r=c.querySelector('input'),seg=c.parentElement.querySelectorAll('.seg button');
+    function set(v){r.value=v;c.style.setProperty('--p',v+'%');seg.forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.v===+v))})}
+    r.addEventListener('input',function(){set(r.value)});
+    seg.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.v)})});
+    set(50);
+  });
+
+  /* form validation; sending is connected when the site is hosted */
+  var f=document.getElementById('form'),ok=document.getElementById('ok');
+  function chk(id,eid,msg,test){var el=document.getElementById(id),e=document.getElementById(eid),bad=!test(el.value.trim());el.setAttribute('aria-invalid',bad?'true':'false');e.textContent=bad?msg:'';return !bad}
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();ok.classList.remove('show');
+    var a=chk('f-name','e-name','Upišite ime i prezime.',function(v){return v.length>1});
+    var b=chk('f-mail','e-mail','Upišite ispravnu e-mail adresu.',function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)});
+    var c=chk('f-msg','e-msg','Napišite kratak opis radova.',function(v){return v.length>4});
+    if(!(a&&b&&c)){f.querySelector('[aria-invalid="true"]').focus();return}
+    ok.textContent='Forma je ispravno popunjena. Slanje upita povezuje se sa e-mail adresom firme prilikom objave sajta.';ok.classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>
