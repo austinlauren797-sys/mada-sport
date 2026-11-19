@@ -497,8 +497,8 @@ body.is-project .pp.active{display:block}
         <h2>Razgovarajmo o vašem terenu.</h2>
         <p class="lead">Pošaljite lokaciju, nekoliko fotografija i kratak opis planiranih radova.</p>
         <dl>
-          <div><dt>Telefon</dt><dd><span class="todo">unijeti broj</span></dd></div>
-          <div><dt>E-mail</dt><dd><span class="todo">unijeti e-mail</span></dd></div>
+          <div><dt>Telefon</dt><dd><a href="tel:+38268940487">068 940 487</a></dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:office@mada-sport.me">office@mada-sport.me</a></dd></div>
           <div><dt>Sjedište</dt><dd>Podgorica, Crna Gora</dd></div>
           <div><dt>Firma</dt><dd>MADA SPORT d.o.o. · PIB 04394682</dd></div>
         </dl>
@@ -727,7 +727,7 @@ body.is-project .pp.active{display:block}
     var b=chk('f-mail','e-mail','Upišite ispravnu e-mail adresu.',function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)});
     var c=chk('f-msg','e-msg','Napišite kratak opis radova.',function(v){return v.length>4});
     if(!(a&&b&&c)){f.querySelector('[aria-invalid="true"]').focus();return}
-    ok.textContent='Forma je ispravno popunjena. Slanje upita povezuje se sa e-mail adresom firme prilikom objave sajta.';ok.classList.add('show');
+    var v=function(id){return document.getElementById(id).value.trim()};var body='Ime: '+v('f-name')+'\nUstanova: '+v('f-org')+'\nE-mail: '+v('f-mail')+'\nTelefon: '+v('f-tel')+'\nLokacija: '+v('f-loc')+'\nVrsta radova: '+v('f-type')+'\n\n'+v('f-msg');location.href='mailto:office@mada-sport.me?subject='+encodeURIComponent('Upit sa sajta: '+v('f-name'))+'&body='+encodeURIComponent(body);ok.textContent='Otvara se vaš e-mail program sa popunjenim upitom. Ako se ne otvori, pišite na office@mada-sport.me ili pozovite 068 940 487.';ok.classList.add('show');
   });
 })();
 </script>
